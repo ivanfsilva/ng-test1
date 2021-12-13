@@ -1,24 +1,38 @@
 import { LikeWidgetComponent } from './like-widget.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { UniqueIdService } from '../../services/unique-id/unique-id.service';
+import { LikeWidgetModule } from './like-widget.module';
 
 describe( LikeWidgetComponent.name, () => {
   let fixture: ComponentFixture<LikeWidgetComponent> = null;
   beforeEach( async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LikeWidgetComponent ],
-      providers: [ UniqueIdService ],
-      imports: [ FontAwesomeModule ]
+      imports: [ LikeWidgetModule ]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(LikeWidgetComponent);
+    fixture = TestBed.createComponent( LikeWidgetComponent );
   });
 
   it('should create component', () => {
-    const instance = fixture.componentInstance;
+    const component = fixture.componentInstance;
 
-    expect( instance ).toBeTruthy();
+    expect( component ).toBeTruthy();
+  });
+
+  it('should auto generate ID when id input property is missing', () => {
+    const component = fixture.componentInstance;
+    fixture.detectChanges();
+
+    expect( component.id ).toBeTruthy();
+  });
+
+  it('should NOT generate ID when id input property is present', () => {
+    const component = fixture.componentInstance;
+    const someId = 'someId';
+
+    component.id = someId;
+    fixture.detectChanges();
+
+    expect( component.id ).toBe( someId );
   });
 });
